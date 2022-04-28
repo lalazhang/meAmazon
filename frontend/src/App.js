@@ -1,36 +1,41 @@
 import data from './data';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import NavBar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
+import NavbarBrand from 'react-bootstrap/esm/NavbarBrand';
+import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div>
-      <header>
-        <a href="/">me Amazon</a>
-      </header>
-      <main>
-        <h1>Featured Product</h1>
-        <div className="products">
-          {data.product.map((product) => (
-            //Each product object has an unique key value
-            <div className="product" key={product.slug}>
-              <a href={`/product/${product.slug}`}>
-                <img src={product.image} alt="top"></img>
-              </a>
-
-              <div className="product-info">
-                <a href={`/product/${product.slug}`}>
-                  <p>{product.name}</p>
-                  <p>{product.brand}</p>
-                </a>
-                <p>
-                  <strong>{`CAD ${product.price}`}</strong>
-                </p>
-                <button>Add to cart</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="d-flex flex-column site-container">
+        {' '}
+        <header>
+          <NavBar bg="danger.bg-gradient" expend="lg">
+            <Container>
+              <LinkContainer to="/">
+                <NavBar.Brand>Lan Pole Wear</NavBar.Brand>
+              </LinkContainer>
+            </Container>
+          </NavBar>{' '}
+        </header>
+        <main>
+          <Container>
+            {' '}
+            <Routes>
+              <Route path="/" element={<HomeScreen />}></Route>
+              <Route path="/product/:slug" element={<ProductScreen />}></Route>
+            </Routes>
+          </Container>
+        </main>
+        <footer>
+          <div className="text-center">copyright reserved Lan</div>
+        </footer>
+      </div>
+    </BrowserRouter>
   );
 }
 

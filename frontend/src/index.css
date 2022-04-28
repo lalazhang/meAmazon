@@ -22,9 +22,11 @@ header a {
   text-decoration: dotted;
 }
 main {
-  padding: 1rem;
+  flex: 0.9;
 }
-
+.site-container {
+  min-height: 100vh;
+}
 .products {
   display: flex;
   flex-wrap: row-reverse wrap;
@@ -39,4 +41,11 @@ main {
 }
 .product-info {
   padding: 1rem;
+}
+.rating span {
+  color: rgb(187, 144, 185);
+}
+.card-title {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
 }
