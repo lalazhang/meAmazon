@@ -11,7 +11,11 @@ app.get('/api/products/:slug', (req, res) => {
   console.log(slug);
   //send data where slug = data.product.slug
   const product = data.product.find((x) => x.slug === req.params.slug);
-  res.send({ product });
+  if (product) {
+    res.send({ product });
+  } else {
+    res.status(404).send({ message: 'Product not Found' });
+  }
 });
 
 //PORT
