@@ -6,8 +6,11 @@ import axios from 'axios';
 import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
 import Container from 'react-bootstrap/Container';
 import Product from '../components/Product';
+import MessageBox from '../components/LoadingBox';
+import LoadingBox from '../components/LoadingBox';
 export default function HomeScreen() {
   const initialState = [];
   const reducer = (state, action) => {
@@ -17,16 +20,20 @@ export default function HomeScreen() {
       case 'success':
         return { ...state, products: action.payload, loading: false };
       case 'error':
-        return { ...state, error: action.payload };
+        return { ...state, loading: false, error: action.payload, err: true };
       default:
         return state;
     }
   };
-  const [{ loading, products, error }, dispatch] = useReducer(logger(reducer), {
-    loading: true,
-    products: initialState,
-    error: '',
-  });
+  const [{ loading, products, error, err }, dispatch] = useReducer(
+    logger(reducer),
+    {
+      loading: true,
+      products: initialState,
+      error: '',
+      err: false,
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +49,8 @@ export default function HomeScreen() {
         dispatch({ type: 'error', payload: err.message });
       }
     };
-    fetchData().catch(console.error);
+    fetchData();
+    // fetchData().catch(console.error);
   }, []);
   return (
     <div>
@@ -50,9 +58,12 @@ export default function HomeScreen() {
         <h1>Featured Product</h1>
         <div className="products">
           {loading ? (
-            <div>We are working hard to load...</div>
-          ) : error ? (
-            <div>{error}</div>
+            <LoadingBox></LoadingBox>
+          ) : err ? (
+            <>
+              <p>{error}</p>
+              <MessageBox variant="warning">{error}</MessageBox>
+            </>
           ) : (
             <Container fluid>
               <Row>

@@ -5,12 +5,16 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import NavBar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import NavbarBrand from 'react-bootstrap/esm/NavbarBrand';
+import { Helmet } from 'react-helmet-async';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <BrowserRouter>
+      <Helmet>
+        <title>Lan Pole Wear</title>
+      </Helmet>
       <div className="d-flex flex-column site-container">
         {' '}
         <header>
@@ -23,7 +27,7 @@ function App() {
           </NavBar>{' '}
         </header>
         <main>
-          <Container>
+          <Container className="mt-3">
             {' '}
             <Routes>
               <Route path="/" element={<HomeScreen />}></Route>
