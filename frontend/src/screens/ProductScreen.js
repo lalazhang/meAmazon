@@ -14,7 +14,7 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
-
+import logger from 'use-reducer-logger';
 export default function ProductScreen() {
   //slug is taken from Link in app.js
   const { slug } = useParams();
@@ -23,20 +23,29 @@ export default function ProductScreen() {
   const reducer = (state, action) => {
     switch (action.type) {
       case 'loading':
-        return { ...state, loading: true };
+        return { ...state, loading: true, err: false };
       case 'success':
-        return { ...state, product: action.payload, loading: false };
+        return {
+          ...state,
+          product: action.payload,
+          loading: false,
+          err: false,
+        };
       case 'error':
-        return { ...state, error: action.payload };
+        return { ...state, loading: false, err: true, error: action.payload };
       default:
         return state;
     }
   };
-  const [{ loading, product, error }, dispatch] = useReducer(reducer, {
-    loading: true,
-    product: initialState,
-    error: '',
-  });
+  const [{ loading, product, error, err }, dispatch] = useReducer(
+    logger(reducer),
+    {
+      loading: true,
+      product: initialState,
+      err: false,
+      error: '',
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +55,7 @@ export default function ProductScreen() {
 
         dispatch({ type: 'success', payload: result.data.product });
       } catch (error) {
-        dispatch({ type: 'error', payload: error.message });
+        dispatch({ type: 'error', payload: error.message, err: true });
       }
     };
     fetchData();
@@ -60,8 +69,13 @@ export default function ProductScreen() {
             {' '}
             <LoadingBox></LoadingBox>
           </>
-        ) : error ? (
-          <MessageBox variant="warning"></MessageBox>
+        ) : err ? (
+          <div>
+            <Row>
+              {' '}
+              <MessageBox variant="warning" error={error}></MessageBox>
+            </Row>
+          </div>
         ) : (
           <div>
             <Row>
