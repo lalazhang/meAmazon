@@ -15,6 +15,7 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
 import logger from 'use-reducer-logger';
+import { getError } from '../util/util';
 export default function ProductScreen() {
   //slug is taken from Link in app.js
   const { slug } = useParams();
@@ -54,8 +55,13 @@ export default function ProductScreen() {
         const result = await axios(`/api/products/${slug}`);
 
         dispatch({ type: 'success', payload: result.data.product });
-      } catch (error) {
-        dispatch({ type: 'error', payload: error.message, err: true });
+      } catch (error1) {
+        //error1.message returns 404 blah, error1.response refers to server.js /api/products/:slut error
+        dispatch({
+          type: 'error',
+          payload: getError(error1),
+          err: true,
+        });
       }
     };
     fetchData();
