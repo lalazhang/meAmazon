@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -14,6 +14,7 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
+import { Store } from '../Store';
 
 export default function ProductScreen() {
   //slug is taken from Link in app.js
@@ -51,6 +52,10 @@ export default function ProductScreen() {
     };
     fetchData();
   }, [slug]);
+  const [state, dispatch1] = useContext(Store);
+  const handleAddToCart = () => {
+    dispatch1({ type: 'ADD_TO_CART' });
+  };
 
   return (
     <div>
@@ -107,7 +112,10 @@ export default function ProductScreen() {
                   </ListGroupItem>
                   {product.countInStock > 0 && (
                     <ListGroupItem>
-                      <Button variant="info">add to cart</Button>
+                      <Button variant="info" onClick={handleAddToCart}>
+                        add to cart
+                      </Button>
+                      <p>{state}</p>
                     </ListGroupItem>
                   )}
                 </ListGroup>

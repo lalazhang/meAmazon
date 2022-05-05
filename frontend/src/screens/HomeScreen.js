@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer, useContext } from 'react';
 import data from '../data';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -11,6 +11,9 @@ import Container from 'react-bootstrap/Container';
 import Product from '../components/Product';
 import MessageBox from '../components/LoadingBox';
 import LoadingBox from '../components/LoadingBox';
+//wrap import item in {} is multiple are exported
+import { Store } from '../Store';
+
 export default function HomeScreen() {
   const initialState = [];
   const reducer = (state, action) => {
@@ -52,10 +55,14 @@ export default function HomeScreen() {
     fetchData();
     // fetchData().catch(console.error);
   }, []);
+
+  //in Store.js Store is useContext not StoreProvider
+  const value = useContext(Store);
   return (
     <div>
       <main>
-        <h1>Featured Product</h1>
+        <h1>Featured Product </h1>
+        <p>{value}</p>
         <div className="products">
           {loading ? (
             <LoadingBox></LoadingBox>
