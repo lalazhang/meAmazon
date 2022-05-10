@@ -52,11 +52,31 @@ export default function ProductScreen() {
     };
     fetchData();
   }, [slug]);
-  const [state, dispatch1] = useContext(Store);
-  const handleAddToCart = () => {
-    dispatch1({ type: 'ADD_TO_CART' });
-  };
 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = () => {
+    //if product countInStock>0, then add, however countInStock is hardcoded
+    // if number of this product in cart === countInStock , alert "out of stock"
+    console.log('product id ' + product._id);
+
+    console.log(cart.cartItems.find((e) => e.product._id === product._id));
+    const existInCart = cart.cartItems.find(
+      (e) => e.product._id === product._id
+    );
+
+    existInCart ? console.log('exist') : console.log('not exist');
+    if (existInCart && existInCart.quantity === product.countInStock) {
+      window.alert('out of stock');
+      return;
+    }
+    const quantity = existInCart ? existInCart.quantity + 1 : 1;
+    ctxDispatch({
+      type: 'ADD_TO_CART1',
+      payload: { product, quantity: quantity },
+    });
+    console.log(state.cart);
+  };
   return (
     <div>
       <div>
@@ -112,10 +132,10 @@ export default function ProductScreen() {
                   </ListGroupItem>
                   {product.countInStock > 0 && (
                     <ListGroupItem>
-                      <Button variant="info" onClick={handleAddToCart}>
+                      <Button variant="info" onClick={addToCartHandler}>
                         add to cart
                       </Button>
-                      <p>{state}</p>
+                      <p>haha</p>
                     </ListGroupItem>
                   )}
                 </ListGroup>

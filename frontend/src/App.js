@@ -12,8 +12,7 @@ import { Button, Nav } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Store } from './Store';
 function App() {
-  const [something, dispatch] = useContext(Store);
-  const cartItem = useContext(Store);
+  const { state } = useContext(Store);
 
   return (
     <BrowserRouter>
@@ -28,14 +27,13 @@ function App() {
               <LinkContainer to="/">
                 <NavBar.Brand>Lan Pole Wear</NavBar.Brand>
               </LinkContainer>
-              <Nav>{something}</Nav>
-              <Button
-                onClick={() => {
-                  dispatch({ type: 'ADD_TO_CART' });
-                }}
-              >
-                {something}
-              </Button>
+              <Nav className="justify-content-end">
+                <Link to="/cart">
+                  {' '}
+                  <i className="fas fa-shopping-bag"></i>
+                  {state.cart.cartItems.length}
+                </Link>
+              </Nav>
             </Container>
           </NavBar>{' '}
         </header>

@@ -57,12 +57,12 @@ export default function HomeScreen() {
   }, []);
 
   //in Store.js Store is useContext not StoreProvider
-  const value = useContext(Store);
+
   return (
     <div>
       <main>
         <h1>Featured Product </h1>
-        <p>{value}</p>
+
         <div className="products">
           {loading ? (
             <LoadingBox></LoadingBox>

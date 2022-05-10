@@ -1,6 +1,7 @@
 const data = {
   product: [
     {
+      _id: '1',
       name: 'Alexia top',
       slug: 'pole-dance-alexia-top',
       catagory: 'top',
@@ -13,6 +14,7 @@ const data = {
       description: 'stylish pole dance top',
     },
     {
+      _id: '2',
       name: 'Lace top',
       slug: 'pole-dance-lace-top',
       catagory: 'top',
@@ -25,6 +27,7 @@ const data = {
       description: 'lace pole dance top',
     },
     {
+      _id: '3',
       name: 'Black swan top',
       slug: 'pole-dance-black-swan-top',
       catagory: 'top',
@@ -37,6 +40,7 @@ const data = {
       description: 'black pole dance top',
     },
     {
+      _id: '4',
       name: 'Lavendar top',
       slug: 'pole-dance-lavendar-top',
       catagory: 'top',

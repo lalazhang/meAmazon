@@ -1,20 +1,73 @@
 import { createContext } from 'react';
 import { useState } from 'react';
 import { useReducer } from 'react';
+
 export const Store = createContext();
+
+const initialState = { cart: { cartItems: [] } };
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
-      return state + 1;
+    // case 'ADD_TO_CART':
+    //   return { ...state, cart: { ...state.cart, cartId: action.payload } };
+    case 'ADD_TO_CART1':
+      const newItem = action.payload;
+      console.log('Store cart item exist:');
+      console.log(
+        state.cart.cartItems.find((e) => e.product._id === newItem.product._id)
+      );
+
+      const newItemExist = state.cart.cartItems.find(
+        (e) => e.product._id === newItem.product._id
+      );
+      let newCartItems = state.cart.cartItems;
+
+      if (newItemExist) {
+        newCartItems.map((item) => {
+          //bug here
+          if (item.product._id === newItem.product._id) {
+            item = newItem;
+          }
+        });
+
+        newCartItems = newCartItems.filter(
+          (item) => item.product._id !== newItem.product._id
+        );
+
+        newCartItems = [...newCartItems, newItem];
+        console.log('new cartItems');
+        console.log(newCartItems);
+      }
+
+      // newItemExist
+      //   ? console.log(
+      //       'item exists' +
+      //         state.cart.cartItems.map((item) => {
+      //           //bug here
+      //           item =
+      //             item.product._id === newItem.product._id ? newItem : item;
+      //         })
+      //     )
+      //   : console.log('item does not exist');
+
+      const cartItemsFinal = newItemExist
+        ? newCartItems
+        : [...state.cart.cartItems, newItem];
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: cartItemsFinal,
+        },
+      };
+    default:
+      return state;
   }
 };
+
 export function StoreProvider(props) {
   //props is what wrapped inside <StoreProvider></StoreProvider>?
-  const [cartItem, setCartItem] = useState(0);
 
-  const initialState = 0;
-  const [count, dispatch] = useReducer(reducer, initialState);
-  return (
-    <Store.Provider value={[count, dispatch]}>{props.children}</Store.Provider>
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const value = { state, dispatch };
+  return <Store.Provider value={value}>{props.children}</Store.Provider>;
 }
