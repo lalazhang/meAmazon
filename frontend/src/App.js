@@ -13,6 +13,10 @@ import { useContext, useState } from 'react';
 import { Store } from './Store';
 function App() {
   const { state } = useContext(Store);
+  let totalQuantityInCart = 0;
+  state.cart.cartItems.map((item) => {
+    totalQuantityInCart = totalQuantityInCart + item.quantity;
+  });
 
   return (
     <BrowserRouter>
@@ -31,7 +35,7 @@ function App() {
                 <Link to="/cart">
                   {' '}
                   <i className="fas fa-shopping-bag"></i>
-                  {state.cart.cartItems.length}
+                  {totalQuantityInCart}
                 </Link>
               </Nav>
             </Container>

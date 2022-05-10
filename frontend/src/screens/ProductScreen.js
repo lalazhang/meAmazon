@@ -65,7 +65,10 @@ export default function ProductScreen() {
       (e) => e.product._id === product._id
     );
 
-    existInCart ? console.log('exist') : console.log('not exist');
+    existInCart
+      ? console.log('exist in cart')
+      : console.log('not exist in cart');
+
     if (existInCart && existInCart.quantity === product.countInStock) {
       window.alert('out of stock');
       return;
@@ -135,7 +138,6 @@ export default function ProductScreen() {
                       <Button variant="info" onClick={addToCartHandler}>
                         add to cart
                       </Button>
-                      <p>haha</p>
                     </ListGroupItem>
                   )}
                 </ListGroup>

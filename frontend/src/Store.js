@@ -11,7 +11,7 @@ const reducer = (state, action) => {
     //   return { ...state, cart: { ...state.cart, cartId: action.payload } };
     case 'ADD_TO_CART1':
       const newItem = action.payload;
-      console.log('Store cart item exist:');
+      console.log('The following product exist in cart');
       console.log(
         state.cart.cartItems.find((e) => e.product._id === newItem.product._id)
       );
@@ -22,12 +22,12 @@ const reducer = (state, action) => {
       let newCartItems = state.cart.cartItems;
 
       if (newItemExist) {
-        newCartItems.map((item) => {
+        /*         newCartItems.map((item) => {
           //bug here
           if (item.product._id === newItem.product._id) {
             item = newItem;
           }
-        });
+        }); */
 
         newCartItems = newCartItems.filter(
           (item) => item.product._id !== newItem.product._id
@@ -37,17 +37,6 @@ const reducer = (state, action) => {
         console.log('new cartItems');
         console.log(newCartItems);
       }
-
-      // newItemExist
-      //   ? console.log(
-      //       'item exists' +
-      //         state.cart.cartItems.map((item) => {
-      //           //bug here
-      //           item =
-      //             item.product._id === newItem.product._id ? newItem : item;
-      //         })
-      //     )
-      //   : console.log('item does not exist');
 
       const cartItemsFinal = newItemExist
         ? newCartItems
