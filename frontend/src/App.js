@@ -8,8 +8,16 @@ import NavbarBrand from 'react-bootstrap/esm/NavbarBrand';
 import { Helmet } from 'react-helmet-async';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Button, Nav } from 'react-bootstrap';
+import { useContext, useState } from 'react';
+import { Store } from './Store';
 function App() {
+  const { state } = useContext(Store);
+  let totalQuantityInCart = 0;
+  state.cart.cartItems.map((item) => {
+    totalQuantityInCart = totalQuantityInCart + item.quantity;
+  });
+
   return (
     <BrowserRouter>
       <Helmet>
@@ -23,6 +31,13 @@ function App() {
               <LinkContainer to="/">
                 <NavBar.Brand>Lan Pole Wear</NavBar.Brand>
               </LinkContainer>
+              <Nav className="justify-content-end">
+                <Link to="/cart">
+                  {' '}
+                  <i className="fas fa-shopping-bag"></i>
+                  {totalQuantityInCart}
+                </Link>
+              </Nav>
             </Container>
           </NavBar>{' '}
         </header>
