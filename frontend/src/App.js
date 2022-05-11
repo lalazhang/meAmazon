@@ -13,6 +13,8 @@ import { useContext, useState } from 'react';
 import { Store } from './Store';
 function App() {
   const { state } = useContext(Store);
+  // calculate total quantity of items in cart,
+  //replaced by recursive function array.reduce(c)
   let totalQuantityInCart = 0;
   state.cart.cartItems.map((item) => {
     totalQuantityInCart = totalQuantityInCart + item.quantity;
@@ -35,7 +37,7 @@ function App() {
                 <Link to="/cart">
                   {' '}
                   <i className="fas fa-shopping-bag"></i>
-                  {totalQuantityInCart}
+                  {state.cart.cartItems.reduce((a, c) => a - c.quantity, 0)}
                 </Link>
               </Nav>
             </Container>
