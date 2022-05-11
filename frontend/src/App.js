@@ -11,10 +11,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Nav } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Store } from './Store';
+import CartScreen from './screens/CartScreen';
 function App() {
   const { state } = useContext(Store);
   // calculate total quantity of items in cart,
-  //replaced by recursive function array.reduce(c)
+  //replaced by recursive function array.reduce((previous,current)=>previous+current.quantity, 0)
+  //first call: previous =0, current is array[0] value, previous +current.quantity becomes next previous
   let totalQuantityInCart = 0;
   state.cart.cartItems.map((item) => {
     totalQuantityInCart = totalQuantityInCart + item.quantity;
@@ -49,6 +51,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeScreen />}></Route>
               <Route path="/product/:slug" element={<ProductScreen />}></Route>
+              <Route path="/cart" element={<CartScreen />}></Route>
             </Routes>
           </Container>
         </main>
