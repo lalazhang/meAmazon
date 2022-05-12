@@ -49,3 +49,9 @@ main {
   color: rgb(0, 0, 0);
   text-decoration: none;
 }
+.img-large {
+  max-width: 100%;
+}
+.img-thumbnail {
+  max-height: 200px;
+}
