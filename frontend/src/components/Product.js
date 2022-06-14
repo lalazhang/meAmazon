@@ -11,8 +11,8 @@ export default function Product(props) {
         <img src={product.image} alt="top"></img>
       </Link>{' '}
       <Card.Body>
-        <Link to={`/product/${product.slug}`}>
-          <Card.Title> {product.name}</Card.Title>
+        <Link className="link" to={`/product/${product.slug}`}>
+          <Card.Title className="link"> {product.name}</Card.Title>
           <Card.Title>{product.brand}</Card.Title>
         </Link>
         <Card.Text>{`CAD ${product.price}`}</Card.Text>

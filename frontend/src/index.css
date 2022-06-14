@@ -54,4 +54,11 @@ main {
 }
 .img-thumbnail {
   max-height: 200px;
+  width: 100px;
+}
+.small-container {
+  max-width: 600px;
+}
+.link {
+  color: rgb(187, 144, 185);
 }

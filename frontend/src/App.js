@@ -12,6 +12,7 @@ import { Button, Nav } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
+import SigninScreen from './screens/SigninScreen';
 function App() {
   const { state } = useContext(Store);
   // calculate total quantity of items in cart,
@@ -52,6 +53,7 @@ function App() {
               <Route path="/" element={<HomeScreen />}></Route>
               <Route path="/product/:slug" element={<ProductScreen />}></Route>
               <Route path="/cart" element={<CartScreen />}></Route>
+              <Route path="/signin" element={<SigninScreen />}></Route>
             </Routes>
           </Container>
         </main>
