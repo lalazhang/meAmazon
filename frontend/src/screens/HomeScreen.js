@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 
 import Container from 'react-bootstrap/Container';
 import Product from '../components/Product';
-import MessageBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 //wrap import item in {} is multiple are exported
 import { Store } from '../Store';
@@ -48,8 +48,12 @@ export default function HomeScreen() {
           type: 'success',
           payload: result.data.data.product,
         });
-      } catch (err) {
-        dispatch({ type: 'error', payload: err.message });
+      } catch (error) {
+        // catch(error) error string should not be confused with err boolean
+        dispatch({
+          type: 'error',
+          payload: error.message,
+        });
       }
     };
     fetchData();
@@ -67,10 +71,12 @@ export default function HomeScreen() {
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : err ? (
-            <>
-              <p>{error}</p>
-              <MessageBox variant="warning">{error}</MessageBox>
-            </>
+            <div>
+              <Row>
+                {' '}
+                <MessageBox variant="warning" error={error}></MessageBox>
+              </Row>
+            </div>
           ) : (
             <Container fluid>
               <Row>
