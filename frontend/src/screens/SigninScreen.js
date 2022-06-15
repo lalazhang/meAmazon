@@ -22,7 +22,7 @@ function SigninScreen() {
       </Helmet>
       <h1 className="my-3">Sign In</h1>
       <Form>
-        <FormGroup className="md-3" controlId="email">
+        <FormGroup className="mb-3" controlId="email">
           <FormLabel>Email</FormLabel>
           <FormControl type="email" required></FormControl>
         </FormGroup>
@@ -38,7 +38,7 @@ function SigninScreen() {
         <div className="mb-3">
           New User?{' '}
           <Link className="link" to={`/signup?redirect=${redirect}`}>
-            Register
+            Sign Up Today 😉
           </Link>
         </div>
       </Form>
