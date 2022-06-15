@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -16,6 +16,8 @@ import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
 import logger from 'use-reducer-logger';
 import { getError } from '../util/util';
+import { Store } from '../Store';
+
 export default function ProductScreen() {
   //slug is taken from Link in app.js
   const { slug } = useParams();
@@ -67,6 +69,33 @@ export default function ProductScreen() {
     fetchData();
   }, [slug]);
 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = () => {
+    //if product countInStock>0, then add, however countInStock is hardcoded
+    // if number of this product in cart === countInStock , alert "out of stock"
+    console.log('product id ' + product._id);
+
+    console.log(cart.cartItems.find((e) => e.product._id === product._id));
+    const existInCart = cart.cartItems.find(
+      (e) => e.product._id === product._id
+    );
+
+    existInCart
+      ? console.log('exist in cart')
+      : console.log('not exist in cart');
+
+    if (existInCart && existInCart.quantity === product.countInStock) {
+      window.alert('out of stock');
+      return;
+    }
+    const quantity = existInCart ? existInCart.quantity + 1 : 1;
+    ctxDispatch({
+      type: 'ADD_TO_CART1',
+      payload: { product, quantity: quantity },
+    });
+    console.log(state.cart);
+  };
   return (
     <div>
       <div>
@@ -127,7 +156,9 @@ export default function ProductScreen() {
                   </ListGroupItem>
                   {product.countInStock > 0 && (
                     <ListGroupItem>
-                      <Button variant="info">add to cart</Button>
+                      <Button variant="info" onClick={addToCartHandler}>
+                        add to cart
+                      </Button>
                     </ListGroupItem>
                   )}
                 </ListGroup>
