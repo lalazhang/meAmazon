@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useReducer } from 'react';
@@ -21,7 +28,7 @@ import { Store } from '../Store';
 export default function ProductScreen() {
   //slug is taken from Link in app.js
   const { slug } = useParams();
-
+  const navigate = useNavigate();
   const initialState = [];
   const reducer = (state, action) => {
     switch (action.type) {
@@ -94,6 +101,7 @@ export default function ProductScreen() {
       type: 'ADD_TO_CART1',
       payload: { product, quantity: quantity },
     });
+    navigate('/cart');
     console.log(state.cart);
   };
   return (

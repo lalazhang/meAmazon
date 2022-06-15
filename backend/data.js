@@ -20,7 +20,7 @@ const data = {
       catagory: 'top',
       image: '/images/img2.jpg',
       price: 27,
-      countInStock: 1,
+      countInStock: 3,
       brand: 'LAN.',
       rating: 0.5,
       numReviews: 10,

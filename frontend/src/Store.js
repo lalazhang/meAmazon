@@ -4,7 +4,14 @@ import { useReducer } from 'react';
 
 export const Store = createContext();
 
-const initialState = { cart: { cartItems: [] } };
+const initialState = {
+  cart: {
+    cartItems:
+      JSON.parse(localStorage.getItem('items')) === null
+        ? []
+        : JSON.parse(localStorage.getItem('items')),
+  },
+};
 const reducer = (state, action) => {
   switch (action.type) {
     // case 'ADD_TO_CART':
@@ -22,13 +29,6 @@ const reducer = (state, action) => {
       let newCartItems = state.cart.cartItems;
 
       if (newItemExist) {
-        /*         newCartItems.map((item) => {
-          //bug here
-          if (item.product._id === newItem.product._id) {
-            item = newItem;
-          }
-        }); */
-
         newCartItems = newCartItems.filter(
           (item) => item.product._id !== newItem.product._id
         );
@@ -41,6 +41,12 @@ const reducer = (state, action) => {
       const cartItemsFinal = newItemExist
         ? newCartItems
         : [...state.cart.cartItems, newItem];
+
+      //save cartItems to browser localStorage after add,
+      //cartItems remained after refresh
+      localStorage.setItem('items', JSON.stringify(cartItemsFinal));
+      console.log('local storage after add');
+      console.log(JSON.parse(localStorage.getItem('items')));
       return {
         ...state,
         cart: {
@@ -48,6 +54,27 @@ const reducer = (state, action) => {
           cartItems: cartItemsFinal,
         },
       };
+    case 'REMOVE_ITEM': {
+      console.log('deleted product id');
+      console.log(action.payload._id);
+      //filter keeps e where e.product._id is actin.payload._id
+      const newCartItemsPostDelete = state.cart.cartItems.filter(
+        (e) => e.product._id !== action.payload._id
+      );
+      console.log('cartItems after delete');
+      console.log(newCartItemsPostDelete);
+
+      //save cartItems to browser localStorage after delete
+      //cartItems remained after refresh
+      localStorage.setItem('items', JSON.stringify(newCartItemsPostDelete));
+      console.log('local storage after delete');
+      console.log(JSON.parse(localStorage.getItem('items')));
+
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: newCartItemsPostDelete },
+      };
+    }
     default:
       return state;
   }
