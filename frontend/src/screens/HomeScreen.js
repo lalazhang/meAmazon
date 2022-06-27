@@ -43,10 +43,11 @@ export default function HomeScreen() {
       dispatch({ type: 'loading' });
       try {
         const result = await axios('/api/products');
-        console.log(result.data);
+        console.log(result);
         dispatch({
           type: 'success',
-          payload: result.data.data.product,
+          //see data localhost:5001/api/products
+          payload: result.data,
         });
       } catch (error) {
         // catch(error) error string should not be confused with err boolean

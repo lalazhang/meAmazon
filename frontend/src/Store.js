@@ -75,6 +75,10 @@ const reducer = (state, action) => {
         cart: { ...state.cart, cartItems: newCartItemsPostDelete },
       };
     }
+
+    case 'USER_INFO': {
+      return { ...state, userInfo: action.payload };
+    }
     default:
       return state;
   }
