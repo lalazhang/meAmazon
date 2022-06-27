@@ -1,7 +1,23 @@
+import bcrypt from 'bcrypt';
+const salt = 10;
 const data = {
+  users: [
+    {
+      name: 'Lan',
+      email: 'admin@example.com',
+      passWord: bcrypt.hashSync('123456', salt),
+      isAdmin: true,
+    },
+    {
+      name: 'John',
+      email: 'John321@gmail.com',
+      passWord: bcrypt.hashSync('654321', salt),
+      isAdmin: false,
+    },
+  ],
   product: [
     {
-      _id: '1',
+      //_id: '1',
       name: 'Alexia top',
       slug: 'pole-dance-alexia-top',
       catagory: 'top',
@@ -14,7 +30,7 @@ const data = {
       description: 'stylish pole dance top',
     },
     {
-      _id: '2',
+      //_id: '2',
       name: 'Lace top',
       slug: 'pole-dance-lace-top',
       catagory: 'top',
@@ -27,7 +43,7 @@ const data = {
       description: 'lace pole dance top',
     },
     {
-      _id: '3',
+      //_id: '3',
       name: 'Black swan top',
       slug: 'pole-dance-black-swan-top',
       catagory: 'top',
@@ -40,7 +56,7 @@ const data = {
       description: 'black pole dance top',
     },
     {
-      _id: '4',
+      //_id: '4',
       name: 'Lavendar top',
       slug: 'pole-dance-lavendar-top',
       catagory: 'top',

@@ -8,7 +8,7 @@ import NavbarBrand from 'react-bootstrap/esm/NavbarBrand';
 import { Helmet } from 'react-helmet-async';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Nav } from 'react-bootstrap';
+import { Button, Nav, NavDropdown } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
@@ -36,6 +36,13 @@ function App() {
               <LinkContainer to="/">
                 <NavBar.Brand>Lan Pole Wear</NavBar.Brand>
               </LinkContainer>
+              <NavBar.Brand>
+                {state.userInfo ? (
+                  <NavDropdown title={state.userInfo.name}></NavDropdown>
+                ) : (
+                  ''
+                )}
+              </NavBar.Brand>
               <Nav className="justify-content-end">
                 <Link to="/cart">
                   {' '}
@@ -54,6 +61,7 @@ function App() {
               <Route path="/product/:slug" element={<ProductScreen />}></Route>
               <Route path="/cart" element={<CartScreen />}></Route>
               <Route path="/signin" element={<SigninScreen />}></Route>
+              <Route path="/signin/shipping" element={<SigninScreen />}></Route>
             </Routes>
           </Container>
         </main>
