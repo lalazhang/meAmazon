@@ -5,12 +5,14 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
+  Toast,
 } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Store } from '../Store';
+import { getError } from '../util/util';
 
 function SigninScreen() {
   //useLocation() returns location object from current URL
@@ -33,14 +35,19 @@ function SigninScreen() {
     console.log(signInInfo);
     try {
       const { data } = await axios.post('/api/signin/test', signInInfo);
+      ctxDispatch({ type: 'USER_INFO', payload: data });
       console.log(data);
       navigate(`${redirect}`);
       localStorage.setItem('userInfo', JSON.stringify(data));
-      ctxDispatch({ type: 'USER_INFO', payload: data });
     } catch (error) {
-      alert('Invalid email or password');
+      Toast.error(getError(error));
     }
   };
+  useEffect(() => {
+    if (state.userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, state.userInfo, redirect]);
   return (
     <Container className="small-container">
       <Helmet>
