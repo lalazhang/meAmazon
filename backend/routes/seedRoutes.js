@@ -2,8 +2,9 @@ import express from 'express';
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
 import data from '../data.js';
-//const { model } = require('mongoose');
 
+//run 5001/api/seed/test to remove the data
+//and insert data.js into Schema
 const seedRouter = express.Router();
 seedRouter.get('/test', async (req, res) => {
   //await

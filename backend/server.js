@@ -23,11 +23,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //port 5001, localhost:5001/api/seed/test
+//seedRouter has to run first to remove and create Prouct/User
 app.use('/api/seed', seedRouter);
 
 //get products from productRouter localhost:5001/api/products
 app.use('/api/products', productRouter);
-app.use('/api/signin', userRouter);
+app.use('/api/user', userRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
