@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 dotenv.config();
 //Mongoose is a MongoDB object modeling tool
 //designed to work in an asynchronous environment.
@@ -22,6 +23,12 @@ const app = express();
 // post request body wont be received without express.json()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//get paypal client ID
+///api/keys/paypal does not work
+app.get('/api/keyspaypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sandbox');
+});
 //port 5001, localhost:5001/api/seed/test
 //seedRouter has to run first to remove and create Prouct/User
 app.use('/api/seed', seedRouter);
@@ -29,7 +36,7 @@ app.use('/api/seed', seedRouter);
 //get products from productRouter localhost:5001/api/products
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
-
+app.use('/api/orders', orderRouter);
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });

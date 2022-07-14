@@ -7,12 +7,19 @@ import HomeScreen from './screens/HomeScreen';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from './Store';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <HelmetProvider>
-        <App />
+        <PayPalScriptProvider
+          deferLoading={true}
+          options={{ ' client-id': process.env.PAYPAL_CLIENT_ID }}
+        >
+          {' '}
+          <App />
+        </PayPalScriptProvider>
       </HelmetProvider>
     </StoreProvider>
   </React.StrictMode>,

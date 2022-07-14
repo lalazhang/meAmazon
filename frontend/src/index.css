@@ -70,3 +70,12 @@ main {
   border-bottom: 0.2rem solid #540303;
   color: #540303;
 }
+.span-text-color {
+  color: rgb(187, 144, 185);
+}
+.link-text-color {
+  color: rgb(187, 144, 185);
+}
+.button-style {
+  background: rgb(187, 144, 185);
+}

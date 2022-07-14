@@ -8,11 +8,11 @@ import data from '../data.js';
 const seedRouter = express.Router();
 seedRouter.get('/test', async (req, res) => {
   //await
-  await Product.remove({});
+  await Product.deleteMany({});
   const createProducts = await Product.insertMany(data.product);
   //res.send({ createProducts });
 
-  await User.remove({});
+  await User.deleteMany({});
   const createUsers = await User.insertMany(data.users);
   res.send({ createProducts, createUsers });
 });

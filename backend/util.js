@@ -12,3 +12,22 @@ export const generateToken = (user) => {
     {}
   );
 };
+//make sure its (req, res, next)=>{}
+export const isAuth = (req, res, next) => {
+  console.log(req.headers);
+  const authorization = req.headers.authorization;
+  if (authorization) {
+    const token = authorization.slice(7, authorization.length); // XXXXXX
+    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
+      if (err) {
+        res.status(401).send({ message: 'Invalid token' });
+      } else {
+        // req.user to be used in orderRoutes.js as req.user._id
+        req.user = decode;
+        next();
+      }
+    });
+  } else {
+    res.status(401).send({ message: 'No Token' });
+  }
+};

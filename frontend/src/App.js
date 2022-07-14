@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ShippingAdressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   // calculate total quantity of items in cart,
@@ -99,6 +100,7 @@ function App() {
               ></Route>
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               <Route path="/placeOrder" element={<PlaceOrderScreen />}></Route>
+              <Route path="/order/:_id" element={<OrderScreen />}></Route>
             </Routes>
           </Container>
         </main>

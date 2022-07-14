@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Row from 'react-bootstrap/Row';
@@ -7,11 +7,31 @@ import Card from 'react-bootstrap/Card';
 import { useState } from 'react';
 import { Store } from '../Store';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Button, ListGroup, ListGroupItem, Nav } from 'react-bootstrap';
+import { Button, ListGroup, ListGroupItem, Nav, Toast } from 'react-bootstrap';
+import { getError } from '../util/util';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import LoadingBox from '../components/LoadingBox';
 
 export default function PlaceOrderScreen() {
-  const [test, setTest] = useState('test');
   const navigate = useNavigate();
+  //reducer is independant of useReducer() component
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'CREATE_REQUEST':
+        return { ...state, loading: true };
+      case 'CREATE_SUCCESS':
+        return { ...state, loading: false };
+      case 'CREATE_FAIL':
+        return { ...state, loading: false };
+      default:
+        return state;
+    }
+  };
+  const [{ loading, error }, dispatch] = useReducer(reducer, {
+    loading: false,
+  });
+  //does Store export a useReducer?
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     userInfo,
@@ -26,7 +46,49 @@ export default function PlaceOrderScreen() {
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(7.99);
   cart.taxPrice = round2(0.13 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-  const placeOrderHandler = async () => {};
+
+  const placeOrderHandler = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'CREATE_REQUEST' });
+      //sendOrder is receiving an object so no need to {sendOrder}
+      const sendOrder = await axios.post(
+        '/api/orders/',
+        {
+          orderItems: cartItems,
+          //try cart.shippingAddress??
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: paymentMethodName,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
+
+        //custom headers
+        //authentication is the process of verifying who someone is
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+        //authorization is the process of verifying what specific applications, files, and data a user has access to
+      );
+      //ctxDispatch({ type: 'CART_CLEAR' });
+      dispatch({ type: 'CREATE_SUCCESS' });
+      //localStorage.removeItem('items');
+      console.log(
+        'after removing local.Storage items',
+        JSON.parse(localStorage.getItem('items'))
+      );
+      console.log(sendOrder);
+      navigate(`/order/${sendOrder.data._id}`);
+    } catch (err) {
+      dispatch({ type: 'CREATE_FAIL' });
+      toast.error(getError(err.response.data));
+    }
+  };
+
   useEffect(() => {
     console.log(cart.cartItems);
     if (!cart.paymentMethodName) {
@@ -57,7 +119,9 @@ export default function PlaceOrderScreen() {
                 <strong>Name: </strong>
                 {shippingAddress.fullName}
               </Card.Text>
-              <Link to="/shipping">Edit</Link>
+              <Link className="link-text-color" to="/shipping">
+                Edit
+              </Link>
             </Card.Body>
           </Card>
           <Card>
@@ -76,7 +140,10 @@ export default function PlaceOrderScreen() {
                             src={item.product.image}
                             alt={item.product.name}
                           ></img>
-                          <Link to={`/product/${item.product.slug}`}>
+                          <Link
+                            className="link-text-color"
+                            to={`/product/${item.product.slug}`}
+                          >
                             {item.product.name}
                           </Link>
                         </Col>
@@ -87,7 +154,6 @@ export default function PlaceOrderScreen() {
                   ))
                 }
               </ListGroup>
-              <Link to="/cart"></Link>
             </Card.Body>
           </Card>
           <Card className="mb-3">
@@ -97,14 +163,16 @@ export default function PlaceOrderScreen() {
                 <strong>Method: </strong>
                 {paymentMethodName.paymentMethod}
               </Card.Text>
-              <Link to="/payment">Edit</Link>
+              <Link className="link-text-color" to="/payment">
+                Edit
+              </Link>
             </Card.Body>
           </Card>
         </Col>
         <Col md={4}>
           <Card className="mb-3">
             <Card.Text>
-              <Card.Title> Order History </Card.Title>
+              <Card.Title> Order Summary</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
@@ -116,12 +184,14 @@ export default function PlaceOrderScreen() {
                   <Row>
                     <Col>Shipping</Col>
                     <Col>${cart.shippingPrice}</Col>
-                    <span>free shipping with purchase over CA$100</span>
+                    <span className="span-text-color">
+                      free shipping with purchase over CA$100
+                    </span>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Tax</Col>
+                    <Col>13% (HST)</Col>
                     <Col>${cart.taxPrice}</Col>
                   </Row>
                 </ListGroup.Item>
@@ -134,12 +204,14 @@ export default function PlaceOrderScreen() {
                 <ListGroup.Item>
                   <div className="d-grid">
                     <Button
+                      className="button-style"
                       type="button"
                       onClick={placeOrderHandler}
                       diabled={cartItems.length === 0}
                     >
                       Place Order
                     </Button>
+                    <div>{loading && <LoadingBox></LoadingBox>}</div>
                   </div>
                 </ListGroup.Item>
               </ListGroup>

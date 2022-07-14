@@ -17,10 +17,14 @@ function ShippingAdressScreen() {
     //the following line causes warning
     shippingAddress ? shippingAddress.fullName : ''
   );
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(
+    shippingAddress ? shippingAddress.address : ''
+  );
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState(
+    shippingAddress ? shippingAddress.country : ''
+  );
 
   const navigate = useNavigate();
   useEffect(() => {

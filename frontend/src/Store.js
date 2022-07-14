@@ -113,6 +113,9 @@ const reducer = (state, action) => {
         cart: { ...state.cart, paymentMethodName: action.payload },
       };
     }
+    case 'CART_CLEAR': {
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
+    }
     default:
       return state;
   }
