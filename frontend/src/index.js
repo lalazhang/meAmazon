@@ -15,6 +15,7 @@ ReactDOM.render(
       <HelmetProvider>
         <PayPalScriptProvider
           deferLoading={true}
+          //client_id does not work!!!!!!!
           options={{ ' client-id': process.env.PAYPAL_CLIENT_ID }}
         >
           {' '}

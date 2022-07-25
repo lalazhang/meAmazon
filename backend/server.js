@@ -37,6 +37,15 @@ app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/orders', orderRouter);
+
+//returns current directory path
+const _dirname = path.resolve();
+//serve all files in /frontend/build as static files
+app.use(express.static(path.join(_dirname, '/frontend/buid')));
+//everything user enters will be servered by /frontend/build/index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(_dirname, '/frontend/build/index.html'));
+});
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });

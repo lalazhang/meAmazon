@@ -42,7 +42,8 @@ function SigninScreen() {
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       //Toast does not work
-      toast.error(getError(error));
+      console.log(error.response.data);
+      toast.error(error + ' ' + error.response.data.message);
     }
   };
   useEffect(() => {

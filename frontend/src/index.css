@@ -79,3 +79,12 @@ main {
 .button-style {
   background: rgb(187, 144, 185);
 }
+.table {
+  border: 1px solid black;
+}
+.small-container {
+  box-shadow: 0 4px 8px 0 rgba(187, 144, 185, 0.2);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
