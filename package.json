@@ -9,15 +9,7 @@
   "description": "1.create react app 2.initialize repository and publish to github",
   "version": "1.0.0",
   "main": "index.js",
-<<<<<<< HEAD
-  "devDependencies": {
-    "use-reducer-logger": "^1.0.2"
-  },
-  "engines": {
-    "node": "17.x"
-  },
-=======
->>>>>>> fast-forward
+
   "scripts": {
     "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
