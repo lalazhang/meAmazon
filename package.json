@@ -5,13 +5,13 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "mongoose": "^6.3.8",
+    "react": "^18.2.0",
     "use-reducer-logger": "^1.0.2"
   },
   "name": "meamazon",
   "description": "1.create react app 2.initialize repository and publish to github",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
