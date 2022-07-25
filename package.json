@@ -1,7 +1,4 @@
 {
-  "engines": {
-    "node": ">=17"
-  },
   "dependencies": {
     "dotenv": "^16.0.1",
     "mongoose": "^6.3.8",
@@ -12,6 +9,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {},
+  "engines":{"node":"17.x"},
   "scripts": {
     "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
