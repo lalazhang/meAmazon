@@ -47,15 +47,12 @@ export default function ProductScreen() {
         return state;
     }
   };
-  const [{ loading, product, error, err }, dispatch] = useReducer(
-    logger(reducer),
-    {
-      loading: true,
-      product: initialState,
-      err: false,
-      error: '',
-    }
-  );
+  const [{ loading, product, error, err }, dispatch] = useReducer(reducer, {
+    loading: true,
+    product: initialState,
+    err: false,
+    error: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
