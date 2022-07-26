@@ -28,15 +28,12 @@ export default function HomeScreen() {
         return state;
     }
   };
-  const [{ loading, products, error, err }, dispatch] = useReducer(
-    logger(reducer),
-    {
-      loading: true,
-      products: initialState,
-      error: '',
-      err: false,
-    }
-  );
+  const [{ loading, products, error, err }, dispatch] = useReducer(reducer, {
+    loading: true,
+    products: initialState,
+    error: '',
+    err: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
